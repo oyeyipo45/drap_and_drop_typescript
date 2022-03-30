@@ -25,14 +25,38 @@ class ProjectInput {
         this.element = importedNode.firstElementChild;
         this.element.id = 'user-input';
         this.titleInputElement = this.element.querySelector('#title');
-        this.descriptionElement = this.element.querySelector('#description');
+        this.descriptionInputElement = this.element.querySelector('#description');
         this.peopleInputElement = this.element.querySelector('#people');
         this.configure();
         this.attach();
     }
+    gatherUserInput() {
+        const enteredTitle = this.titleInputElement.value;
+        const enteredDescription = this.descriptionInputElement.value;
+        const enteredPeople = this.peopleInputElement.value;
+        if (enteredTitle.trim().length === 0 ||
+            enteredDescription.trim().length === 0 ||
+            enteredPeople.trim().length === 0) {
+            alert('Invalid input');
+            return;
+        }
+        else {
+            return [enteredTitle, enteredDescription, parseFloat(enteredPeople)];
+        }
+    }
+    clearInputs() {
+        this.titleInputElement.value = '';
+        this.descriptionInputElement.value = '';
+        this.peopleInputElement.value = '';
+    }
     submitHandler(event) {
         event.preventDefault();
-        console.log(this.titleInputElement.value);
+        const userInput = this.gatherUserInput();
+        if (Array.isArray(userInput)) {
+            const [title, desc, people] = userInput;
+            console.log(title, desc, people);
+            this.clearInputs();
+        }
     }
     //   private configure() {
     //     this.element.addEventListener('submit', this.submitHandler.bind(this));
